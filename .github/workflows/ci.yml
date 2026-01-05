@@ -1,4 +1,4 @@
-name: Python Web App CI
+name: Docker Build & push
 
 on:
   push:
