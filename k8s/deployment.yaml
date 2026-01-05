@@ -1,0 +1,43 @@
+apiversion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-python-app
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: simple-python-app
+  template:
+    metadata:
+      labels:
+        app: simple-python-app
+    spec:
+      containers:
+      - name: app
+        image: nithish2699/simple-python-app:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+        resources: 
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
